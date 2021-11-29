@@ -8,9 +8,9 @@ ACTIVE_BRANCH=${GITHUB_REF##*/}
 cd $WORKSPACE
 
 # https://stackoverflow.com/questions/58033366/how-to-get-the-current-branch-within-github-actions
-git fetch
+git pull
 echo $(git rev-list --left-right --count origin/$TARGET_BRANCH...origin/$ACTIVE_BRANCH)
-DIFF_COUNT=$(git fetch && git rev-list --left-right --count origin/$TARGET_BRANCH...origin/$ACTIVE_BRANCH | awk '{print $2}')
+DIFF_COUNT=$(git pull && git rev-list --left-right --count origin/$TARGET_BRANCH...origin/$ACTIVE_BRANCH | awk '{print $2}')
 echo $DIFF_COUNT
 
 echo "Diff count is $DIFF_COUNT"
