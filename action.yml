@@ -1,0 +1,21 @@
+name: 'Diff target branch'
+description: 'Compare the branch we are running the action on against the target branch, and notify any diff to slack'
+inputs:
+  TARGET_BRANCH:  
+    description: 'branch to check'
+    required: true
+    default: 'prod'
+  SLACK_WEBHOOK:  
+    description: 'The slack webhook to use for alerting if there is a diff behind'
+    required: true
+runs:
+  using: "composite"
+  steps:
+    - run: bash ${{ github.action_path }}/diff.sh
+      env:
+        TARGET_BRANCH: ${{ inputs.TARGET_BRANCH }}
+        SLACK_WEBHOOK: ${{ inputs.SLACK_WEBHOOK }}
+        NAME: ${{ github.repository }}
+        WORKSPACE: ${{github.workspace}}
+
+      shell: bash
