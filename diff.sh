@@ -1,14 +1,14 @@
 set -ex
 
 # For testing.
-# SLACK_WEBHOOK=https://hooks.slack.com/services/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 TARGET_BRANCH=prod NAME=rive-app/rive WORKSPACE=../rive GITHUB_REF=refs/heads/master ./diff.sh
+# SLACK_WEBHOOK=https://hooks.slack.com/services/... TARGET_BRANCH=prod NAME=rive-app/rive WORKSPACE=../rive GITHUB_REF=refs/heads/master ./diff.sh
 
 # Get the hash of the repo.
 ACTIVE_BRANCH=${GITHUB_REF##*/}
 cd $WORKSPACE
 
 # https://stackoverflow.com/questions/58033366/how-to-get-the-current-branch-within-github-actions
-
+echo $(git rev-list --left-right --count origin/$TARGET_BRANCH...origin/$ACTIVE_BRANCH)
 DIFF_COUNT=$(git fetch && git rev-list --left-right --count origin/$TARGET_BRANCH...origin/$ACTIVE_BRANCH | awk '{print $2}')
 echo $DIFF_COUNT
 
